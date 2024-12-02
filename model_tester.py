@@ -6,7 +6,13 @@ from keras._tf_keras.keras.models import load_model
 from sklearn.preprocessing import LabelEncoder
 import matplotlib.pyplot as plt
 import pickle
+import json
 
+# Open and read the JSON file
+with open('testing_data.json', 'r') as file:
+    data = json.load(file)
+    
+test_texts = data['text']
 # Load the trained model
 model = load_model('text_classification_model.keras')
 
