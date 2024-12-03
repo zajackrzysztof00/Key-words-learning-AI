@@ -11,7 +11,7 @@ import pickle
 import json
 
 # Open and read the JSON file
-with open('data.json', 'r') as file:
+with open('dataset.json', 'r') as file:
     data = json.load(file)
 
 data = pd.DataFrame(data)
@@ -19,7 +19,10 @@ data = pd.DataFrame(data)
 label_encoder = LabelEncoder()
 data['label_encoded'] = label_encoder.fit_transform(data['label'])
 num_classes = len(label_encoder.classes_)
-
+encoder_df = data[['label','label_encoded']].copy()
+encoder_df = encoder_df.drop_duplicates()
+with open('encoder_key.json', 'w') as file:
+    encoder_df.to_json(file,orient="records", index=False)
 # Tokenize text data
 tokenizer = Tokenizer(num_words=1000)  # Limit vocabulary size
 tokenizer.fit_on_texts(data['text'])
