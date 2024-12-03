@@ -13,6 +13,7 @@ with open('testing_data.json', 'r') as file:
     data = json.load(file)
     
 test_texts = data['text']
+
 # Load the trained model
 model = load_model('text_classification_model.keras')
 
@@ -30,7 +31,9 @@ test_data_padded = pad_sequences(test_sequences, maxlen=max_sequence_length)
 # Make predictions
 predictions = model.predict(test_data_padded)
 predicted_classes = np.argmax(predictions, axis=1)
-labels = ['class1', 'class2']
+with open('encoder_key.json', 'r') as file:
+    decoder_df = pd.read_json(file)
+labels = decoder_df["label"].to_list()
 plt.plot(predicted_classes)
 plt.show()
 print(predicted_classes)
